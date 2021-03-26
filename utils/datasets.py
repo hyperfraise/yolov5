@@ -189,6 +189,7 @@ class LoadImages:  # for inference
         else:
             raise Exception(f"ERROR: {p} does not exist")
 
+        print("Dataset loader with rank", rank, "/", num_ranks)
         images = [x for x in files if x.split(".")[-1].lower() in img_formats]
         videos = [x for x in files if x.split(".")[-1].lower() in vid_formats]
         videos = [
@@ -203,7 +204,9 @@ class LoadImages:  # for inference
         ]
         print("Videos to do : ", len(videos))
         videos = [
-            video_name for video_name in videos if video_name.split("/")[-1].replace(".webm", "") not in videos_already_done
+            video_name
+            for video_name in videos
+            if video_name.split("/")[-1].replace(".webm", "") not in videos_already_done
         ]
         print("Videos to do after removing the ones already done", len(videos))
 
