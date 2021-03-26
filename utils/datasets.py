@@ -176,7 +176,9 @@ class _RepeatSampler(object):
 
 
 class LoadImages:  # for inference
-    def __init__(self, path, img_size=640, stride=32, rank=0, num_ranks=0):
+    def __init__(
+        self, path, img_size=640, stride=32, rank=0, num_ranks=0, output_dir=""
+    ):
         p = str(Path(path).absolute())  # os-agnostic absolute path
         if "*" in p:
             files = sorted(glob.glob(p, recursive=True))  # glob
@@ -193,6 +195,14 @@ class LoadImages:  # for inference
             video_name
             for video_name in videos
             if num_ranks != 0 and len(video_name) % num_ranks != rank
+        ]
+        videos_already_done = os.listdir(output_dir)
+        videos_already_done = [
+            video_name.replace(".txt", "").replace(".webm", "")
+            for video_name in videos_already_done
+        ]
+        videos = [
+            video_name for video_name in videos if video_name not in videos_already_done
         ]
 
         ni, nv = len(images), len(videos)
