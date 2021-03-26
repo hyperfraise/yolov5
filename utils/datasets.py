@@ -198,12 +198,14 @@ class LoadImages:  # for inference
         ]
         videos_already_done = os.listdir(output_dir)
         videos_already_done = [
-            video_name.replace(".txt", "").replace(".webm", "")
+            video_name.replace(".txt", "").replace(".webm", "").replace("results_", "")
             for video_name in videos_already_done
         ]
+        print("Videos to do : ", len(videos))
         videos = [
-            video_name for video_name in videos if video_name not in videos_already_done
+            video_name for video_name in videos if video_name.split("/")[-1].replace(".webm", "") not in videos_already_done
         ]
+        print("Videos to do after removing the ones already done", len(videos))
 
         ni, nv = len(images), len(videos)
 
