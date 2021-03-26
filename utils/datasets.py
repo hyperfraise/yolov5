@@ -266,7 +266,9 @@ class LoadImages:  # for inference
             # Convert
             img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
             img = np.ascontiguousarray(img)
-        return path, None, img0, self.cap
+        else:
+            img = None
+        return path, img, img0, self.cap
 
     def new_video(self, path):
         self.frame = 0
