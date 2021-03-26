@@ -195,7 +195,7 @@ class LoadImages:  # for inference
         videos = [
             video_name
             for video_name in videos
-            if num_ranks != 0 and len(video_name) % num_ranks != rank
+            if num_ranks != 0 and len(video_name) % num_ranks == rank
         ]
         videos_already_done = os.listdir(output_dir)
         videos_already_done = [
