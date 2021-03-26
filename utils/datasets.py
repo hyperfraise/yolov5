@@ -192,14 +192,11 @@ class LoadImages:  # for inference
         print("Dataset loader with rank", rank, "/", num_ranks)
         images = [x for x in files if x.split(".")[-1].lower() in img_formats]
         videos = [x for x in files if x.split(".")[-1].lower() in vid_formats]
-        print(videos[:10])
         videos = [
             video_name
             for video_name in videos
             if num_ranks != 0 and len(video_name) % num_ranks != rank
         ]
-        print(videos[:10])
-        vdsdsdsv
         videos_already_done = os.listdir(output_dir)
         videos_already_done = [
             video_name.replace(".txt", "").replace(".webm", "").replace("results_", "")
