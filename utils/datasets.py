@@ -130,7 +130,7 @@ class _RepeatSampler(object):
 
 
 class LoadImages:  # for inference
-    def __init__(self, path, img_size=640, stride=32):
+    def __init__(self, path, img_size=640, stride=32, rank=0, num_ranks=0):
         p = str(Path(path).absolute())  # os-agnostic absolute path
         if '*' in p:
             files = sorted(glob.glob(p, recursive=True))  # glob
@@ -140,9 +140,14 @@ class LoadImages:  # for inference
             files = [p]  # files
         else:
             raise Exception(f'ERROR: {p} does not exist')
+        videos = [x for x in files if x.split(".")[-1].lower() in vid_formats]
+        videos = [
+            video_name
+            for video_name in videos
+            if num_ranks != 0 and len(video_name) % num_ranks != rank
+        ]
 
         images = [x for x in files if x.split('.')[-1].lower() in img_formats]
-        videos = [x for x in files if x.split('.')[-1].lower() in vid_formats]
         ni, nv = len(images), len(videos)
 
         self.img_size = img_size
